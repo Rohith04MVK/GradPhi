@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "gradphi"
+version = "0.1.0"
+description = "Gradphi: My autodiff and machine learning playground. It's a bit wild, but that's how I'm."
+authors = ["Rohith04MVK <rohithkbobby04@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^1.25.2"
+matplotlib = "^3.7.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
