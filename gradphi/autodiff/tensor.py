@@ -19,6 +19,10 @@ class Tensor:
 
     def __repr__(self):
         return f"Tensor(data={self.data}, grad={self.grad}, requires_grad={self.requires_grad})"
-    
 
-    
+    def to_tensor(self, tensor, requires_grad=False):
+        return tensor if isinstance(tensor, Tensor) else Tensor(tensor, requires_grad)
+
+    def add(self, tensor):
+        tensor = self.to_tensor(tensor)
+        return Tensor(self.data + tensor.data, [self, tensor], "add", requires_grad=self.requires_grad or tensor.requires_grad)
