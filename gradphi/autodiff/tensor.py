@@ -2,27 +2,36 @@ import numpy as np
 
 
 class Tensor:
-    def __init__(self, data, operation=None, arguments=None, requires_grad=True, data_type=None):
-        if isinstance(data, Tensor):
-            self.data = data.data
-            self.grad = data.grad
-            self.operation = data.operation
-            self.arguments = data.arguments
-            self.requires_grad = data.requires_grad
+    def __init__(self, val, args=None, op=None, requires_grad=True, dtype=None):
+        if isinstance(val, Tensor):  # If val is a tensor, copy its attributes
+            self.data = val.data
+            self.grad = val.grad
+            self.op = val.op
+            self.args = val.args
+            self.requires_grad = val.requires_grad
             return
 
-        self.data = np.array(data, dtype=data_type)
+        self.data = np.array(val, dtype=dtype)
         self.grad = None
-        self.operation = operation
-        self.arguments = arguments
+        self.op = op
+        self.args = args
         self.requires_grad = requires_grad
 
-    def __repr__(self):
-        return f"Tensor(data={self.data}, grad={self.grad}, requires_grad={self.requires_grad})"
+    def tensor(self, t, requires_grad=False):
+        return t if isinstance(t, Tensor) else Tensor(t, requires_grad)
 
-    def to_tensor(self, tensor, requires_grad=False):
-        return tensor if isinstance(tensor, Tensor) else Tensor(tensor, requires_grad)
+    def add(self, t):
+        t = self.tensor(t)
+        return Tensor(self.data + t.data, [self, t], "add", requires_grad=self.requires_grad or t.requires_grad)
 
-    def add(self, tensor):
-        tensor = self.to_tensor(tensor)
-        return Tensor(self.data + tensor.data, [self, tensor], "add", requires_grad=self.requires_grad or tensor.requires_grad)
+    def sub(self, t):
+        t = self.tensor(t)
+        return Tensor(self.data - t.data, [self, t], "sub", requires_grad=self.requires_grad or t.requires_grad)
+
+    def mul(self, t):
+        t = self.tensor(t)
+        return Tensor(self.data * t.data, [self, t], "mul", requires_grad=self.requires_grad or t.requires_grad)
+
+    def div(self, t):
+        t = self.tensor(t)
+        return Tensor(self.data / t.data, [self, t], "div", requires_grad=self.requires_grad or t.requires_grad)
