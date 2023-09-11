@@ -116,11 +116,9 @@ class Variable:
         t = self.tensor(t)
         return t.power(self)
 
-    # add unpacking of split tensors
     def __iter__(self):
         return iter(Variable(self.data[i], [self, i], "getitem", requires_grad=self.requires_grad) for i in range(self.data.shape[0]))
 
-    # problem when use grad array indexes: example y[0].grad; non-leaf tensor; in torch it retain_grad
     def __getitem__(self, index):
         return Variable(self.data[index], [self, index], "getitem", requires_grad=self.requires_grad)
 
