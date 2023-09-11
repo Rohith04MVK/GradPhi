@@ -93,27 +93,27 @@ class Variable:
     __str__ = __repr__
 
     def __radd__(self, t):
-        t = self.tensor(t)
+        t = self.to_tensor(t)
         return t.add(self)
 
     def __rsub__(self, t):
-        t = self.tensor(t)
+        t = self.to_tensor(t)
         return t.sub(self)
 
     def __rmul__(self, t):
-        t = self.tensor(t)
+        t = self.to_tensor(t)
         return t.mul(self)
 
     def __rtruediv__(self, t):
-        t = self.tensor(t)
+        t = self.to_tensor(t)
         return t.div(self)
 
     def __rmatmul__(self, t):
-        t = self.tensor(t)
+        t = self.to_tensor(t)
         return t.matmul(self)
 
     def __rpow__(self, t):
-        t = self.tensor(t)
+        t = self.to_tensor(t)
         return t.power(self)
 
     def __iter__(self):
