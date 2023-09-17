@@ -30,7 +30,7 @@ cd gradphi
 
 <p>We welcome contributions! Fork this repository, make your changes, and submit a pull request. Let's make GradPhi even more amazing together.</p>
 
-<h2>Special Thanks 💖</h2>
+<h2>Special Thanks 💝</h2>
 
 <p>Grateful for your boundless support and invaluable help with the math. You know who you are. 😊</p>
 
