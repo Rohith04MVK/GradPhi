@@ -32,10 +32,10 @@ cd gradphi
 
 <h2>Special Thanks 💝</h2>
 
-<p>Grateful for your boundless support and invaluable help with the math. You know who you are. 😊</p>
+<p>A big thanks to <a href="https://github.com/CalBowrn">Cal</a> for your boundless support and invaluable help with the math.</p>
 
 <p align="center">
-        <em>Keep coding, keep learning, and stay curious! 🚀</em>
+        <em>Made with love by Rohith and Cal! ❤️</em>
 </p>
 
 </body>
