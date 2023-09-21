@@ -1,10 +1,11 @@
 import numpy as np
 
 from gradphi.nn.activations import ReLU
+from gradphi.autodiff import Variable
 
 def simple_relu_test():
     relu_layer = ReLU()
-    x = np.array([-2, -1, 0, 1, 2])
+    x = Variable(np.array([-2, -1, 0, 1, 2]))
     
     # Test forward pass
     output = relu_layer.forward(x)

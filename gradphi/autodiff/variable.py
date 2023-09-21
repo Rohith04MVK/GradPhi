@@ -60,6 +60,43 @@ class Variable:
     def sqrt(self):
         return Variable(np.sqrt(self.data), [self], "sqrt", requires_grad=self.requires_grad)
 
+    def log(self):
+        return Variable(np.log(self.data), [self], "log", requires_grad=self.requires_grad)
+
+    def exp(self):
+        return Variable(np.exp(self.data), [self], "exp", requires_grad=self.requires_grad)
+
+    def tanh(self):
+        return Variable(np.tanh(self.data), [self], "tanh", requires_grad=self.requires_grad)
+
+    def sin(self):
+        return Variable(np.sin(self.data), [self], "sin", requires_grad=self.requires_grad)
+
+    def cos(self):
+        return Variable(np.cos(self.data), [self], "cos", requires_grad=self.requires_grad)
+
+    def maximum(self, t):
+        t = self.to_tensor(t)
+        return Variable(np.maximum(self.data, t.data), [self, t], "maximum", requires_grad=self.requires_grad or t.requires_grad)
+
+    def minimum(self, t):
+        t = self.tensor(t)
+        return Variable(np.minimum(self.data, t.data), [self, t], "minimum", requires_grad=self.requires_grad or t.requires_grad)
+
+    def max(self, axis=None, keepdims=False):  # equivalent to torch.amax
+        return Variable(self.data.max(axis=axis, keepdims=keepdims), [self, axis, keepdims], "max", requires_grad=self.requires_grad)
+
+    def min(self, axis=None, keepdims=False):  # equivalent to torch.amin
+        return Variable(self.data.min(axis=axis, keepdims=keepdims), [self, axis, keepdims], "min", requires_grad=self.requires_grad)
+
+    def concatenate(self, *tensors, axis=0):
+        tensors = [self.to_tensor(t) for t in tensors]
+        return Variable(np.concatenate([self.data] + [t.data for t in tensors], axis=axis), [self] + tensors + [axis], "concatenate", requires_grad=self.requires_grad or any([t.requires_grad for t in tensors]))
+
+    def reshape(self, *shape):
+        shape = shape[0] if len(shape) == 1 else shape
+        return Variable(self.data.reshape(shape), [self], "reshape", requires_grad=self.requires_grad)
+
     def __neg__(self):
         return Variable(-self.data, [self], "neg", requires_grad=self.requires_grad)
 
@@ -253,3 +290,57 @@ class Variable:
 
         elif self.op == "sqrt":
             self.args[0].backward(grad * 1 / (2 * np.sqrt(self.args[0].data)))
+        elif self.op == "log":
+            self.args[0].backward(grad * 1 / self.args[0].data)
+
+        elif self.op == "exp":
+            self.args[0].backward(grad * np.exp(self.args[0].data))
+
+        elif self.op == "tanh":
+            self.args[0].backward(grad * (1 - np.tanh(self.args[0].data) ** 2))
+
+        elif self.op == "sin":
+            self.args[0].backward(grad * np.cos(self.args[0].data))
+
+        elif self.op == "cos":
+            self.args[0].backward(grad * -np.sin(self.args[0].data))
+
+        elif self.op == "maximum":
+            self.args[0].backward(
+                grad * (self.args[0].data >= self.args[1].data))
+            self.args[1].backward(
+                grad * (self.args[0].data <= self.args[1].data))
+
+        elif self.op == "minimum":
+            self.args[0].backward(
+                grad * (self.args[0].data <= self.args[1].data))
+            self.args[1].backward(
+                grad * (self.args[0].data >= self.args[1].data))
+
+        elif self.op == "max":
+            axis, keepdims = self.args[1:]
+            if grad.ndim != self.args[0].data.ndim and axis is not None:
+                grad = np.expand_dims(grad, axis)
+            self.args[0].backward(
+                grad * (self.args[0].data == self.args[0].data.max(axis=axis, keepdims=True)))
+
+        elif self.op == "min":
+            axis, keepdims = self.args[1:]
+            if grad.ndim != self.args[0].data.ndim and axis is not None:
+                grad = np.expand_dims(grad, axis)
+            self.args[0].backward(
+                grad * (self.args[0].data == self.args[0].data.min(axis=axis, keepdims=True)))
+
+        elif self.op == "concatenate":
+            axis = self.args[-1]
+            args = self.args[:-1]
+            args_shapes = [arg.data.shape for arg in args]
+
+            grads = np.split(grad, np.cumsum(
+                [arg_shape[axis] for arg_shape in args_shapes])[:-1], axis=axis)
+
+            for i, arg in enumerate(args):
+                arg.backward(grads[i])
+
+        elif self.op == "reshape":
+            self.args[0].backward(grad.reshape(self.args[0].data.shape))
