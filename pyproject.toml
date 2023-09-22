@@ -10,7 +10,7 @@ readme = "README.md"
 python = "^3.11"
 numpy = "^1.25.2"
 matplotlib = "^3.7.2"
-handsdown = "*"
+
 
 
 [build-system]
