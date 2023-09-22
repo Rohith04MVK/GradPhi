@@ -35,7 +35,7 @@ cd gradphi
 <p>A big thanks to <a href="https://github.com/CalBowrn">Cal</a> for your boundless support and invaluable help with the math.</p>
 
 <p align="center">
-        <em>Made with love by Rohith and Cal! ❤️</em>
+        <em>Made by Rohith and Cal with ❤️ !</em>
 </p>
 
 </body>
