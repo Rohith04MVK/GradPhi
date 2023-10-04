@@ -97,6 +97,15 @@ class Variable:
         shape = shape[0] if len(shape) == 1 else shape
         return Variable(self.data.reshape(shape), [self], "reshape", requires_grad=self.requires_grad)
 
+    def abs(self):
+        return Variable(np.abs(self.data), [self], "abs", requires_grad=self.requires_grad)
+
+    def transpose(self, *axes):
+        axes = axes[0] if len(axes) == 1 else axes
+        if len(axes) == 0:
+            axes = range(self.data.ndim)[::-1]
+        return Variable(self.data.transpose(axes), [self, axes], "transpose", requires_grad=self.requires_grad)
+
     def __neg__(self):
         return Variable(-self.data, [self], "neg", requires_grad=self.requires_grad)
 
@@ -344,3 +353,9 @@ class Variable:
 
         elif self.op == "reshape":
             self.args[0].backward(grad.reshape(self.args[0].data.shape))
+
+        elif self.op == "transpose":
+            self.args[0].backward(grad.transpose(self.args[1]))
+
+        elif self.op == "abs":
+            self.args[0].backward(grad * np.sign(self.args[0].data))
