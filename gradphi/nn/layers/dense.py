@@ -4,82 +4,44 @@ from gradphi.autodiff import Variable
 
 class Dense:
     """
-    A class representing a Dense (fully connected) layer in a neural network.
+    Dense (fully connected) layer for neural networks.
 
-    The Dense layer, also known as a fully connected layer, performs linear transformations
-    on input data. It is typically used in neural networks to connect every input neuron
-    to every output neuron with trainable weights and optional bias.
+    The Dense layer is a fundamental component of a neural network, performing a linear transformation
+    on the input data. It can be used as a hidden layer in a neural network to learn complex patterns.
 
-    The forward pass computes the linear transformation as follows:
-    output = X * weight^T + bias
+    The Dense layer, also known as a fully connected or linear layer, is a crucial building block
+    in neural networks. It performs a linear transformation on the input data, which is often followed
+    by a non-linear activation function. This layer is responsible for learning complex relationships
+    between input features and is widely used in various neural network architectures.
 
-    Parameters:
-    -----------
-    - in_features : int
-        The number of input features or input neurons.
-    - out_features : int
-        The number of output features or output neurons.
-    - bias : bool, optional (default=True)
-        Whether to include bias terms in the layer.
+    Args:
+        in_features (int): The number of input features.
+        out_features (int): The number of output features.
+        bias (bool, optional): Whether to include a bias term (default is True).
 
     Attributes:
-    ----------
-    - weight : Variable
-        The learnable weight matrix of shape (out_features, in_features).
-    - bias : Variable or None
-        The optional bias vector of shape (1, out_features). None if bias is not used.
+        in_features (int): The number of input features.
+        out_features (int): The number of output features.
+        weight (Variable): Learnable weights for the layer.
+        bias (Variable or None): Learnable bias for the layer (if bias=True), or None (if bias=False).
 
     Methods:
-    --------
-    - forward(self, X):
-      Compute the forward pass of the Dense layer.
+        forward(self, X):
+            Compute the forward pass of the Dense layer.
 
-      Parameters:
-      -----------
-      X : Variable
-          The input data or input features of shape (batch_size, in_features).
+        backward(self, grad=1):
+            Compute the backward pass of the Dense layer.
 
-      Returns:
-      --------
-      Variable
-          The result of the linear transformation applied to the input data.
+        __call__(self, X):
+            Apply the Dense layer to the input.
 
-    - backward(self, grad=1):
-      Compute the backward pass of the Dense layer.
+    Example:
+        >>> dense_layer = Dense(in_features=128, out_features=64, bias=True)
+        >>> input_data = Variable(np.random.randn(32, 128))
+        >>> output = dense_layer(input_data)
 
-      Parameters:
-      -----------
-      grad : float or numpy.ndarray, optional (default=1)
-          The gradient of the loss with respect to the output of this layer.
-
-      Returns:
-      --------
-      None
-          This method updates the gradients of the weight and bias if present,
-          but does not return any values.
-
-    - __call__(self, X):
-      Allow using the Dense layer instance as a callable object for the forward pass.
-
-      Parameters:
-      -----------
-      X : Variable
-          The input data or input features of shape (batch_size, in_features).
-
-      Returns:
-      --------
-      Variable
-          The result of the linear transformation applied to the input data.
-
-    Usage:
-    ------
-    Create an instance of this class to add a Dense layer to your neural network. For example:
-
-    ```python
-    dense_layer = Dense(in_features=64, out_features=128, bias=True)
-    input_data = Variable(np.random.randn(32, 64))  # Batch size of 32, 64 input features
-    output = dense_layer(input_data)
-    ```
+    References:
+        - "Neural Networks and Deep Learning" by Michael Nielsen (http://neuralnetworksanddeeplearning.com/)
     """
 
     def __init__(self, in_features, out_features, bias=True):

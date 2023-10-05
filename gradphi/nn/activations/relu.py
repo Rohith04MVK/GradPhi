@@ -4,73 +4,35 @@ from gradphi.autodiff import Variable
 
 class ReLU(Variable):
     """
-    A class representing the Rectified Linear Unit (ReLU) activation function.
+    The Rectified Linear Unit (ReLU) activation function for neural networks.
 
-    The Rectified Linear Unit (ReLU) is a widely used activation function in neural networks.
-    It introduces non-linearity by transforming the input data such that negative values
-    are replaced with zero, while positive values remain unchanged. The ReLU activation is
-    defined as follows:
-
-    ReLU(x) = max(0, x)
+    ReLU is a widely used activation function in neural networks, known for its simplicity and effectiveness.
+    It introduces non-linearity into the network by returning the input if it's positive and zero otherwise.
+    ReLU has gained popularity due to its simplicity and its ability to mitigate the vanishing gradient problem.
+    It is widely used in various neural network architectures.
 
     Attributes:
-    ----------
-    None
+        No attributes are specific to this class.
 
     Methods:
-    --------
-    - forward(self, x):
-      Compute the forward pass of the ReLU activation function.
+        forward(self, x):
+            Compute the forward pass of the ReLU activation function.
 
-      Parameters:
-      -----------
-      x : numpy.ndarray
-          The input data to which the ReLU activation will be applied.
+        backward(self, grad=1):
+            Compute the backward pass of the ReLU activation function.
 
-      Returns:
-      --------
-      numpy.ndarray
-          The result of the ReLU activation applied to the input data 'x'.
+        __call__(self, x):
+            Apply the ReLU activation function to the input.
 
-    - backward(self, grad=1):
-      Compute the backward pass of the ReLU activation function.
+    Example:
+        >>> relu = ReLU()
+        >>> input_data = np.array([2, -1, 0, 3, -4])
+        >>> output = relu(input_data)
+        >>> print(output)
+        [2 0 0 3 0]
 
-      Parameters:
-      -----------
-      grad : float, optional
-          An optional gradient value that can be provided. Default is 1.
-
-      Returns:
-      --------
-      None
-          This method prints the gradient information but does not
-          perform gradient computation in this implementation.
-
-    - __call__(self, x):
-      Allow using the ReLU instance as a callable object for the forward pass.
-
-      Parameters:
-      -----------
-      x : numpy.ndarray
-          The input data to which the ReLU activation will be applied.
-
-      Returns:
-      --------
-      numpy.ndarray
-          The result of the ReLU activation applied to the input data 'x'.
-
-    Usage:
-    ------
-    Create an instance of this class and use it to apply the ReLU activation function
-    to your input data. For example:
-
-    ```python
-    relu = ReLU()
-    input_data = numpy.array([-2.0, 0.5, 3.0, -1.5])
-    output = relu(input_data)
-    ```
-
-    The output will be: `[0.  0.5 3.  0. ]`
+    References:
+        - "Rectified Linear Units (ReLU)" by Vinod Nair and Geoffrey E. Hinton (https://www.cs.toronto.edu/~hinton/absps/reluICML.pdf)
     """
 
     def __init__(self):
