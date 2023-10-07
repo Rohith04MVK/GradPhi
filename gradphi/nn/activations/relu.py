@@ -26,25 +26,26 @@ class ReLU(Variable):
 
     Example:
         >>> relu = ReLU()
-        >>> input_data = np.array([2, -1, 0, 3, -4])
+        >>> input_data = np.array([-2, -1, 0, 3, 4])
         >>> output = relu(input_data)
         >>> print(output)
-        [2 0 0 3 0]
+        [0 0 0 3 4]
 
     References:
         - "Rectified Linear Units (ReLU)" by Vinod Nair and Geoffrey E. Hinton (https://www.cs.toronto.edu/~hinton/absps/reluICML.pdf)
     """
 
-    def __init__(self):
-        pass
-
-    def forward(self, x):
+    def __init__(self, x):
         self.input_data = x
-        return x.maximum(0)
+        self.output_data = np.ones_like(x.data)
 
-    def backward(self, grad=1):
-        print(self.input_data.backward(np.ones_like(self.input_data.data)))
-        return self.input_data.backward()
+    def forward(self):
+        self.output_data = self.input_data.maximum(0)
+        return self.input_data.maximum(0)
+
+    def backward(self):
+        self.output_data.backward(np.ones_like(self.output_data.data))
+        return self.input_data.grad
 
     def __call__(self, x):
         return self.forward(x)

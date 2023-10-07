@@ -10,8 +10,12 @@ readme = "README.md"
 python = "^3.11"
 numpy = "^1.25.2"
 matplotlib = "^3.7.2"
+handsdown = "*"
 
 
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
 
 [build-system]
 requires = ["poetry-core"]
