@@ -11,7 +11,7 @@ python = "^3.11"
 numpy = "^1.25.2"
 matplotlib = "^3.7.2"
 handsdown = "*"
-
+ coverage = "7.3.2" 
 
 
 [tool.poetry.group.dev.dependencies]
