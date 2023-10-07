@@ -1,4 +1,4 @@
-name: Test
+name: Lit
 
 on: [push]
 
@@ -34,7 +34,7 @@ jobs:
       - name: Install project
         run: poetry install --no-interaction
 
-      - name: Run tests
+      - name: Run Linting
         run: |
           source .venv/bin/activate
           pre-commit run --all-files
