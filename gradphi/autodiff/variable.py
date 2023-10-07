@@ -23,88 +23,182 @@ class Variable:
 
     def add(self, t):
         t = self.to_tensor(t)
-        return Variable(self.data + t.data, [self, t], "add", requires_grad=self.requires_grad or t.requires_grad)
+        return Variable(
+            self.data + t.data,
+            [self, t],
+            "add",
+            requires_grad=self.requires_grad or t.requires_grad,
+        )
 
     def sub(self, t):
         t = self.to_tensor(t)
-        return Variable(self.data - t.data, [self, t], "sub", requires_grad=self.requires_grad or t.requires_grad)
+        return Variable(
+            self.data - t.data,
+            [self, t],
+            "sub",
+            requires_grad=self.requires_grad or t.requires_grad,
+        )
 
     def mul(self, t):
         t = self.to_tensor(t)
-        return Variable(self.data * t.data, [self, t], "mul", requires_grad=self.requires_grad or t.requires_grad)
+        return Variable(
+            self.data * t.data,
+            [self, t],
+            "mul",
+            requires_grad=self.requires_grad or t.requires_grad,
+        )
 
     def div(self, t):
         t = self.to_tensor(t)
-        return Variable(self.data / t.data, [self, t], "div", requires_grad=self.requires_grad or t.requires_grad)
+        return Variable(
+            self.data / t.data,
+            [self, t],
+            "div",
+            requires_grad=self.requires_grad or t.requires_grad,
+        )
 
     def matmul(self, n):
         n = self.to_tensor(n)
-        return Variable(np.matmul(self.data, n.data), [self, n], "matmul", requires_grad=self.requires_grad or n.requires_grad)
+        return Variable(
+            np.matmul(self.data, n.data),
+            [self, n],
+            "matmul",
+            requires_grad=self.requires_grad or n.requires_grad,
+        )
 
     def sum(self, *args, **kwargs):
         axis = kwargs.get("axis", None) if len(args) == 0 else args[0]
-        return Variable(self.data.sum(*args, **kwargs), [self, axis], "sum", requires_grad=self.requires_grad)
+        return Variable(
+            self.data.sum(*args, **kwargs),
+            [self, axis],
+            "sum",
+            requires_grad=self.requires_grad,
+        )
 
     def mean(self, *args, **kwargs):
         axis = kwargs.get("axis", None) if len(args) == 0 else args[0]
-        return Variable(self.data.mean(*args, **kwargs), [self, axis], "mean", requires_grad=self.requires_grad)
+        return Variable(
+            self.data.mean(*args, **kwargs),
+            [self, axis],
+            "mean",
+            requires_grad=self.requires_grad,
+        )
 
     def var(self, *args, **kwargs):
         axis = kwargs.get("axis", None) if len(args) == 0 else args[0]
-        return Variable(self.data.var(*args, **kwargs), [self, axis], "var", requires_grad=self.requires_grad)
+        return Variable(
+            self.data.var(*args, **kwargs),
+            [self, axis],
+            "var",
+            requires_grad=self.requires_grad,
+        )
 
     def power(self, n):
         n = self.to_tensor(n)
-        return Variable(self.data ** n.data, [self, n], "power", requires_grad=self.requires_grad or n.requires_grad)
+        return Variable(
+            self.data**n.data,
+            [self, n],
+            "power",
+            requires_grad=self.requires_grad or n.requires_grad,
+        )
 
     def sqrt(self):
-        return Variable(np.sqrt(self.data), [self], "sqrt", requires_grad=self.requires_grad)
+        return Variable(
+            np.sqrt(self.data), [self], "sqrt", requires_grad=self.requires_grad
+        )
 
     def log(self):
-        return Variable(np.log(self.data), [self], "log", requires_grad=self.requires_grad)
+        return Variable(
+            np.log(self.data), [self], "log", requires_grad=self.requires_grad
+        )
 
     def exp(self):
-        return Variable(np.exp(self.data), [self], "exp", requires_grad=self.requires_grad)
+        return Variable(
+            np.exp(self.data), [self], "exp", requires_grad=self.requires_grad
+        )
 
     def tanh(self):
-        return Variable(np.tanh(self.data), [self], "tanh", requires_grad=self.requires_grad)
+        return Variable(
+            np.tanh(self.data), [self], "tanh", requires_grad=self.requires_grad
+        )
 
     def sin(self):
-        return Variable(np.sin(self.data), [self], "sin", requires_grad=self.requires_grad)
+        return Variable(
+            np.sin(self.data), [self], "sin", requires_grad=self.requires_grad
+        )
 
     def cos(self):
-        return Variable(np.cos(self.data), [self], "cos", requires_grad=self.requires_grad)
+        return Variable(
+            np.cos(self.data), [self], "cos", requires_grad=self.requires_grad
+        )
 
     def maximum(self, t):
         t = self.to_tensor(t)
-        return Variable(np.maximum(self.data, t.data), [self, t], "maximum", requires_grad=self.requires_grad or t.requires_grad)
+        return Variable(
+            np.maximum(self.data, t.data),
+            [self, t],
+            "maximum",
+            requires_grad=self.requires_grad or t.requires_grad,
+        )
 
     def minimum(self, t):
         t = self.tensor(t)
-        return Variable(np.minimum(self.data, t.data), [self, t], "minimum", requires_grad=self.requires_grad or t.requires_grad)
+        return Variable(
+            np.minimum(self.data, t.data),
+            [self, t],
+            "minimum",
+            requires_grad=self.requires_grad or t.requires_grad,
+        )
 
     def max(self, axis=None, keepdims=False):  # equivalent to torch.amax
-        return Variable(self.data.max(axis=axis, keepdims=keepdims), [self, axis, keepdims], "max", requires_grad=self.requires_grad)
+        return Variable(
+            self.data.max(axis=axis, keepdims=keepdims),
+            [self, axis, keepdims],
+            "max",
+            requires_grad=self.requires_grad,
+        )
 
     def min(self, axis=None, keepdims=False):  # equivalent to torch.amin
-        return Variable(self.data.min(axis=axis, keepdims=keepdims), [self, axis, keepdims], "min", requires_grad=self.requires_grad)
+        return Variable(
+            self.data.min(axis=axis, keepdims=keepdims),
+            [self, axis, keepdims],
+            "min",
+            requires_grad=self.requires_grad,
+        )
 
     def concatenate(self, *tensors, axis=0):
         tensors = [self.to_tensor(t) for t in tensors]
-        return Variable(np.concatenate([self.data] + [t.data for t in tensors], axis=axis), [self] + tensors + [axis], "concatenate", requires_grad=self.requires_grad or any([t.requires_grad for t in tensors]))
+        return Variable(
+            np.concatenate([self.data] + [t.data for t in tensors], axis=axis),
+            [self] + tensors + [axis],
+            "concatenate",
+            requires_grad=self.requires_grad or any([t.requires_grad for t in tensors]),
+        )
 
     def reshape(self, *shape):
         shape = shape[0] if len(shape) == 1 else shape
-        return Variable(self.data.reshape(shape), [self], "reshape", requires_grad=self.requires_grad)
+        return Variable(
+            self.data.reshape(shape),
+            [self],
+            "reshape",
+            requires_grad=self.requires_grad,
+        )
 
     def abs(self):
-        return Variable(np.abs(self.data), [self], "abs", requires_grad=self.requires_grad)
+        return Variable(
+            np.abs(self.data), [self], "abs", requires_grad=self.requires_grad
+        )
 
     def transpose(self, *axes):
         axes = axes[0] if len(axes) == 1 else axes
         if len(axes) == 0:
             axes = range(self.data.ndim)[::-1]
-        return Variable(self.data.transpose(axes), [self, axes], "transpose", requires_grad=self.requires_grad)
+        return Variable(
+            self.data.transpose(axes),
+            [self, axes],
+            "transpose",
+            requires_grad=self.requires_grad,
+        )
 
     def __neg__(self):
         return Variable(-self.data, [self], "neg", requires_grad=self.requires_grad)
@@ -163,21 +257,35 @@ class Variable:
         return t.power(self)
 
     def __iter__(self):
-        return iter(Variable(self.data[i], [self, i], "getitem", requires_grad=self.requires_grad) for i in range(self.data.shape[0]))
+        return iter(
+            Variable(
+                self.data[i], [self, i], "getitem", requires_grad=self.requires_grad
+            )
+            for i in range(self.data.shape[0])
+        )
 
     def __getitem__(self, index):
-        return Variable(self.data[index], [self, index], "getitem", requires_grad=self.requires_grad)
+        return Variable(
+            self.data[index], [self, index], "getitem", requires_grad=self.requires_grad
+        )
 
     def __array__(self, dtype=None):
         return self.data.astype(dtype, copy=False)
 
     # add unpacking of split tensors
     def __iter__(self):
-        return iter(Variable(self.data[i], [self, i], "getitem", requires_grad=self.requires_grad) for i in range(self.data.shape[0]))
+        return iter(
+            Variable(
+                self.data[i], [self, i], "getitem", requires_grad=self.requires_grad
+            )
+            for i in range(self.data.shape[0])
+        )
 
     # problem when use grad array indexes: example y[0].grad; non-leaf tensor; in torch it retain_grad
     def __getitem__(self, index):
-        return Variable(self.data[index], [self, index], "getitem", requires_grad=self.requires_grad)
+        return Variable(
+            self.data[index], [self, index], "getitem", requires_grad=self.requires_grad
+        )
 
     def __array__(self, dtype=None):
         return self.data.astype(dtype, copy=False)
@@ -211,17 +319,23 @@ class Variable:
         else:
             grad = np.array(grad, dtype=self.dtype)
 
-        if grad.size != self.data.size or grad.ndim != self.data.ndim or grad.shape != self.data.shape:
+        if (
+            grad.size != self.data.size
+            or grad.ndim != self.data.ndim
+            or grad.shape != self.data.shape
+        ):
             if self.data.size == 1:
                 grad = grad.sum()
             elif self.data.ndim == grad.ndim:
-                grad = grad.sum(axis=tuple(
-                    np.where(np.array(self.data.shape) != np.array(grad.shape))[0]), keepdims=True)
+                grad = grad.sum(
+                    axis=tuple(
+                        np.where(np.array(self.data.shape) != np.array(grad.shape))[0]
+                    ),
+                    keepdims=True,
+                )
             else:
-                data_shape = (1,) * (grad.ndim -
-                                     self.data.ndim) + self.data.shape
-                axis = tuple(np.where(np.array(data_shape)
-                             != np.array(grad.shape))[0])
+                data_shape = (1,) * (grad.ndim - self.data.ndim) + self.data.shape
+                axis = tuple(np.where(np.array(data_shape) != np.array(grad.shape))[0])
                 grad = grad.sum(axis=axis).reshape(self.data.shape)
 
         if self.grad is None:
@@ -243,26 +357,34 @@ class Variable:
 
         elif self.op == "div":
             self.args[0].backward(grad / self.args[1].data)
-            self.args[1].backward(-grad * self.args[0].data /
-                                  self.args[1].data ** 2)
+            self.args[1].backward(-grad * self.args[0].data / self.args[1].data ** 2)
 
         elif self.op == "matmul":
-
-            if self.args[0].data.ndim > 1 and self.args[1].data.ndim > 1:  # [matrix x matrix]
+            if (
+                self.args[0].data.ndim > 1 and self.args[1].data.ndim > 1
+            ):  # [matrix x matrix]
                 self.args[0].backward(
-                    np.matmul(grad, self.args[1].data.swapaxes(-1, -2)))
+                    np.matmul(grad, self.args[1].data.swapaxes(-1, -2))
+                )
                 self.args[1].backward(
-                    np.matmul(self.args[0].data.swapaxes(-1, -2), grad))
+                    np.matmul(self.args[0].data.swapaxes(-1, -2), grad)
+                )
 
-            elif self.args[0].data.ndim == 1 and self.args[1].data.ndim == 1:  # [vector x vector]
+            elif (
+                self.args[0].data.ndim == 1 and self.args[1].data.ndim == 1
+            ):  # [vector x vector]
                 self.args[0].backward(grad * self.args[1].data)
                 self.args[1].backward(grad * self.args[0].data)
 
-            elif self.args[0].data.ndim == 1 and self.args[1].data.ndim > 1:  # [vector x matrix]
+            elif (
+                self.args[0].data.ndim == 1 and self.args[1].data.ndim > 1
+            ):  # [vector x matrix]
                 self.args[0].backward(grad * self.args[1].data)
                 self.args[1].backward(np.outer(grad, self.args[0].data))
 
-            elif self.args[0].data.ndim > 1 and self.args[1].data.ndim == 1:  # [matrix x vector]
+            elif (
+                self.args[0].data.ndim > 1 and self.args[1].data.ndim == 1
+            ):  # [matrix x vector]
                 self.args[0].backward(np.outer(grad, self.args[1].data))
                 self.args[1].backward(grad * self.args[0].data)
 
@@ -279,8 +401,11 @@ class Variable:
                 grad = np.expand_dims(grad, axis)
 
             _axis = list(axis) if isinstance(axis, tuple) else axis
-            self.args[0].backward(np.ones_like(
-                self.args[0].data) * grad / np.prod(np.array(self.args[0].data.shape)[_axis]))
+            self.args[0].backward(
+                np.ones_like(self.args[0].data)
+                * grad
+                / np.prod(np.array(self.args[0].data.shape)[_axis])
+            )
 
         elif self.op == "var":
             axis = self.args[1]
@@ -288,14 +413,23 @@ class Variable:
             if grad.ndim != self.args[0].data.ndim and axis is not None:
                 grad = np.expand_dims(grad, axis)
             _axis = list(axis) if isinstance(axis, tuple) else axis
-            self.args[0].backward(np.ones_like(self.args[0].data) * grad * 2 * (self.args[0].data - self.args[0].data.mean(
-                axis=axis, keepdims=True)) / np.prod(np.array(self.args[0].data.shape)[_axis]))
+            self.args[0].backward(
+                np.ones_like(self.args[0].data)
+                * grad
+                * 2
+                * (self.args[0].data - self.args[0].data.mean(axis=axis, keepdims=True))
+                / np.prod(np.array(self.args[0].data.shape)[_axis])
+            )
 
         elif self.op == "power":
             self.args[0].backward(
-                grad * self.args[1].data * self.args[0].data ** (self.args[1].data - 1))
-            self.args[1].backward(grad * self.args[0].data **
-                                  self.args[1].data * np.log(self.args[0].data))
+                grad * self.args[1].data * self.args[0].data ** (self.args[1].data - 1)
+            )
+            self.args[1].backward(
+                grad
+                * self.args[0].data ** self.args[1].data
+                * np.log(self.args[0].data)
+            )
 
         elif self.op == "sqrt":
             self.args[0].backward(grad * 1 / (2 * np.sqrt(self.args[0].data)))
@@ -315,38 +449,41 @@ class Variable:
             self.args[0].backward(grad * -np.sin(self.args[0].data))
 
         elif self.op == "maximum":
-            self.args[0].backward(
-                grad * (self.args[0].data >= self.args[1].data))
-            self.args[1].backward(
-                grad * (self.args[0].data <= self.args[1].data))
+            self.args[0].backward(grad * (self.args[0].data >= self.args[1].data))
+            self.args[1].backward(grad * (self.args[0].data <= self.args[1].data))
 
         elif self.op == "minimum":
-            self.args[0].backward(
-                grad * (self.args[0].data <= self.args[1].data))
-            self.args[1].backward(
-                grad * (self.args[0].data >= self.args[1].data))
+            self.args[0].backward(grad * (self.args[0].data <= self.args[1].data))
+            self.args[1].backward(grad * (self.args[0].data >= self.args[1].data))
 
         elif self.op == "max":
             axis, keepdims = self.args[1:]
             if grad.ndim != self.args[0].data.ndim and axis is not None:
                 grad = np.expand_dims(grad, axis)
             self.args[0].backward(
-                grad * (self.args[0].data == self.args[0].data.max(axis=axis, keepdims=True)))
+                grad
+                * (self.args[0].data == self.args[0].data.max(axis=axis, keepdims=True))
+            )
 
         elif self.op == "min":
             axis, keepdims = self.args[1:]
             if grad.ndim != self.args[0].data.ndim and axis is not None:
                 grad = np.expand_dims(grad, axis)
             self.args[0].backward(
-                grad * (self.args[0].data == self.args[0].data.min(axis=axis, keepdims=True)))
+                grad
+                * (self.args[0].data == self.args[0].data.min(axis=axis, keepdims=True))
+            )
 
         elif self.op == "concatenate":
             axis = self.args[-1]
             args = self.args[:-1]
             args_shapes = [arg.data.shape for arg in args]
 
-            grads = np.split(grad, np.cumsum(
-                [arg_shape[axis] for arg_shape in args_shapes])[:-1], axis=axis)
+            grads = np.split(
+                grad,
+                np.cumsum([arg_shape[axis] for arg_shape in args_shapes])[:-1],
+                axis=axis,
+            )
 
             for i, arg in enumerate(args):
                 arg.backward(grads[i])

@@ -11,11 +11,15 @@ python = "^3.11"
 numpy = "^1.25.2"
 matplotlib = "^3.7.2"
 handsdown = "*"
- coverage = "7.3.2" 
+coverage = "7.3.2"
 
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.2"
+flake8 = "^6.1.0"
+flake8-annotations = "^3.0.1"
+autopep8 = "^2.0.4"
+pre-commit = "^3.4.0"
 
 [build-system]
 requires = ["poetry-core"]
