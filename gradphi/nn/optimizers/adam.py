@@ -71,10 +71,10 @@ class Adam:
             if param.grad is None:
                 continue
 
-            self.m[i] = self.betas[0] * self.m[i] + \
-                (1 - self.betas[0]) * param.grad
-            self.v[i] = self.betas[1] * self.v[i] + \
-                (1 - self.betas[1]) * param.grad ** 2
+            self.m[i] = self.betas[0] * self.m[i] + (1 - self.betas[0]) * param.grad
+            self.v[i] = (
+                self.betas[1] * self.v[i] + (1 - self.betas[1]) * param.grad**2
+            )
 
             m_hat = self.m[i] / (1 - self.betas[0] ** self.t)
             v_hat = self.v[i] / (1 - self.betas[1] ** self.t)
@@ -83,5 +83,4 @@ class Adam:
 
     def zero_grad(self):
         for param in self.params:
-            param.grad = None if param.grad is None else np.zeros_like(
-                param.grad)
+            param.grad = None if param.grad is None else np.zeros_like(param.grad)

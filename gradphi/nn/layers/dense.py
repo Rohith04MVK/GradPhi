@@ -51,9 +51,11 @@ class Dense:
         self.in_features = in_features
         self.out_features = out_features
 
-        stdv = 1. / np.sqrt(in_features)
+        stdv = 1.0 / np.sqrt(in_features)
         self.weight = Variable(
-            np.random.uniform(-stdv, stdv, (out_features, in_features)), dtype=np.float32)
+            np.random.uniform(-stdv, stdv, (out_features, in_features)),
+            dtype=np.float32,
+        )
 
         if bias:
             self.bias = Variable(np.zeros((1, out_features)), dtype=np.float32)
@@ -75,7 +77,8 @@ class Dense:
         if self.bias is not None:
             self.args[2].backward(np.sum(grad, axis=0, keepdims=True))
         self.args[1].backward(
-            np.matmul(self.args[0].data.swapaxes(-1, -2), grad).swapaxes(-1, -2))
+            np.matmul(self.args[0].data.swapaxes(-1, -2), grad).swapaxes(-1, -2)
+        )
         self.args[0].backward(np.matmul(grad, self.args[1].data))
 
     def __call__(self, X):
