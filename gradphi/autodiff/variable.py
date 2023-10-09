@@ -112,6 +112,16 @@ class Variable:
         )
 
     def mul(self, t):
+        """
+        Subtract another Variable or tensor from this Variable.
+
+        Args:
+            t (Variable, ndarray, or scalar): The variable or tensor to be subtracted.
+
+        Returns:
+            Variable: A new Variable representing the result of the subtraction.
+        """
+
         t = self.to_tensor(t)
         return Variable(
             self.data * t.data,
@@ -121,6 +131,15 @@ class Variable:
         )
 
     def div(self, t):
+        """
+        Multiply this Variable by another Variable or tensor.
+
+        Args:
+            t (Variable, ndarray, or scalar): The variable or tensor to be multiplied.
+
+        Returns:
+            Variable: A new Variable representing the result of the multiplication.
+        """
         t = self.to_tensor(t)
         return Variable(
             self.data / t.data,
@@ -130,6 +149,15 @@ class Variable:
         )
 
     def matmul(self, n):
+        """
+        Perform matrix multiplication with another Variable or tensor.
+
+        Args:
+            n (Variable or ndarray): The variable or tensor to be multiplied.
+
+        Returns:
+            Variable: A new Variable representing the result of the matrix multiplication.
+        """
         n = self.to_tensor(n)
         return Variable(
             np.matmul(self.data, n.data),
