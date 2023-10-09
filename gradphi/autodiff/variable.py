@@ -2,6 +2,50 @@ import numpy as np
 
 
 class Variable:
+    """
+    Variable class for autograd in deep learning frameworks.
+
+    The Variable class represents a tensor-like object with gradient tracking capabilities.
+    It is a fundamental component of automatic differentiation (autograd) systems used in
+    deep learning frameworks to compute gradients for backpropagation.
+
+    Args:
+        val (ndarray, Variable, or scalar): The initial value of the variable.
+        args (list, optional): List of parent variables used in the computation (default is None).
+        op (str, optional): The operation that generated this variable (default is None).
+        requires_grad (bool, optional): Whether gradients should be computed for this variable (default is True).
+        dtype (type, optional): The data type of the variable (default is None).
+
+    Attributes:
+        data (ndarray): The data associated with the variable.
+        grad (ndarray or None): The gradient of the variable with respect to some scalar value.
+        op (str or None): The operation that generated this variable.
+        args (list or None): List of parent variables used in the computation.
+        requires_grad (bool): Whether gradients should be computed for this variable.
+        dtype (type or None): The data type of the variable.
+
+    Methods:
+        to_tensor(self, t, requires_grad=False):
+            Convert a tensor-like object to a Variable.
+
+        add(self, t):
+            Add another Variable or tensor to this Variable.
+
+        sub(self, t):
+            Subtract another Variable or tensor from this Variable.
+
+    Example:
+        >>> import numpy as np
+        >>> x = Variable(2.0, requires_grad=True)
+        >>> y = Variable(3.0, requires_grad=True)
+        >>> z = x.add(y)
+        >>> z.backward()
+        >>> print(x.grad)
+        1.0
+
+    References:
+        - "Automatic differentiation" on Wikipedia (https://en.wikipedia.org/wiki/Automatic_differentiation)
+    """
     def __init__(self, val, args=None, op=None, requires_grad=True, dtype=None):
         if isinstance(val, Variable):
             self.data = val.data
@@ -19,9 +63,28 @@ class Variable:
         self.requires_grad = requires_grad
 
     def to_tensor(self, t, requires_grad=False):
+        """
+        Convert a tensor-like object to a Variable.
+
+        Args:
+            t (ndarray, Variable, or scalar): The input tensor-like object.
+            requires_grad (bool, optional): Whether gradients should be computed for the new Variable (default is False).
+
+        Returns:
+            Variable: A Variable representing the input tensor-like object.
+        """
         return t if isinstance(t, Variable) else Variable(t, requires_grad)
 
     def add(self, t):
+        """
+        Add another Variable or tensor to this Variable.
+
+        Args:
+            t (Variable, ndarray, or scalar): The variable or tensor to be added.
+
+        Returns:
+            Variable: A new Variable representing the result of the addition.
+        """
         t = self.to_tensor(t)
         return Variable(
             self.data + t.data,
@@ -31,6 +94,15 @@ class Variable:
         )
 
     def sub(self, t):
+        """
+        Subtract another Variable or tensor from this Variable.
+
+        Args:
+            t (Variable, ndarray, or scalar): The variable or tensor to be subtracted.
+
+        Returns:
+            Variable: A new Variable representing the result of the subtraction.
+        """
         t = self.to_tensor(t)
         return Variable(
             self.data - t.data,
