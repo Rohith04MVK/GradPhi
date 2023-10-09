@@ -46,6 +46,7 @@ class Variable:
     References:
         - "Automatic differentiation" on Wikipedia (https://en.wikipedia.org/wiki/Automatic_differentiation)
     """
+
     def __init__(self, val, args=None, op=None, requires_grad=True, dtype=None):
         if isinstance(val, Variable):
             self.data = val.data
@@ -167,6 +168,16 @@ class Variable:
         )
 
     def sum(self, *args, **kwargs):
+        """
+        Compute the sum of elements along specified axes.
+
+        Args:
+            *args: Variable or int, optional: The axes along which the sum is computed.
+            **kwargs: Additional keyword arguments passed to the ndarray's sum method.
+
+        Returns:
+            Variable: A new Variable representing the computed sum.
+        """
         axis = kwargs.get("axis", None) if len(args) == 0 else args[0]
         return Variable(
             self.data.sum(*args, **kwargs),
@@ -176,6 +187,16 @@ class Variable:
         )
 
     def mean(self, *args, **kwargs):
+        """
+        Compute the mean of elements along specified axes.
+
+        Args:
+            *args: Variable or int, optional: The axes along which the mean is computed.
+            **kwargs: Additional keyword arguments passed to the ndarray's mean method.
+
+        Returns:
+            Variable: A new Variable representing the computed mean.
+        """
         axis = kwargs.get("axis", None) if len(args) == 0 else args[0]
         return Variable(
             self.data.mean(*args, **kwargs),
@@ -185,6 +206,16 @@ class Variable:
         )
 
     def var(self, *args, **kwargs):
+        """
+        Compute the variance of elements along specified axes.
+
+        Args:
+            *args: Variable or int, optional: The axes along which the variance is computed.
+            **kwargs: Additional keyword arguments passed to the ndarray's var method.
+
+        Returns:
+            Variable: A new Variable representing the computed variance.
+        """
         axis = kwargs.get("axis", None) if len(args) == 0 else args[0]
         return Variable(
             self.data.var(*args, **kwargs),
@@ -194,6 +225,15 @@ class Variable:
         )
 
     def power(self, n):
+        """
+        Raise this Variable to the power of another Variable or scalar.
+
+        Args:
+            n (Variable, ndarray, or scalar): The variable, tensor, or scalar exponent.
+
+        Returns:
+            Variable: A new Variable representing the result of the exponentiation.
+        """
         n = self.to_tensor(n)
         return Variable(
             self.data**n.data,
