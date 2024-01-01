@@ -4,6 +4,9 @@ from gradphi.autodiff import Variable
 
 
 class Sigmoid(Variable):
+    """
+    """
+
     def __init__(self):
         pass
 
