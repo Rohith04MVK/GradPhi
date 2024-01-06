@@ -4,7 +4,8 @@ from gradphi.autodiff import Variable
 
 
 class Sigmoid(Variable):
-    """Implements the sigmoid activation function, a ubiquitous element in neural networks.
+    """
+    Implements the sigmoid activation function, a ubiquitous element in neural networks.
 
     The sigmoid function, also known as the logistic function, squashes its input values
     to the range (0, 1) through an S-shaped curve. This characteristic makes it a popular
